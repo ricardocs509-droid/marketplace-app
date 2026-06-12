@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MarketPlace Pro - Com confirmação manual | PIX Direto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        :root {
+            --primary: #ff6b00;
+            --primary-dark: #e55a00;
+            --secondary: #00a884;
+            --danger: #dc3545;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --dark: #2c3e50;
+        }
+
+        body {
+            background: #f0f2f5;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 { font-size: 1.8rem; margin-bottom: 5px; }
+        .header p { font-size: 0.9rem; opacity: 0.9; }
+
+        .user-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .user-info button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sell-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--secondary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 100;
+            border: none;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-bottom: 2px solid var(--light);
+            padding: 0 20px;
+            gap: 20px;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 15px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-weight: 600;
+            color: var(--gray);
+            white-space: nowrap;
+        }
+
+        .nav-tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .content {
+            padding: 20px;
+            min-height: calc(100vh - 130px);
+            padding-bottom: 80px;
+        }
+
+        .ads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .ad-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .ad-card:hover { transform: translateY(-3px); }
+
+        .featured-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #856404;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .pending-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--warning);
+            color: #856404;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .ad-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            cursor: pointer;
+        }
+
+        .ad-info { padding: 15px; }
+        .ad-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
+        .ad-price { font-size: 1.3rem; color: var(--primary); font-weight: bold; margin: 10px 0; }
+        .ad-seller { font-size: 0.8rem; color: var(--gray); display: flex; justify-content: space-between; margin-top: 10px; }
+
+        .btn-contact, .btn-feature, .btn-delete {
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .btn-contact { background: #25D366; color: white; }
+        .btn-feature { background: var(--primary); color: white; }
+        .btn-delete { background: var(--danger); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-warning { background: var(--warning); color: #856404; }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark); }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .images-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .image-upload-card {
+            border: 2px dashed #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light);
+        }
+
+        .image-upload-card img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .image-upload-card input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-primary { background: var(--primary); color: white; width: 100%; }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number { font-size: 2rem; font-weight: bold; }
+
+        .admin-table {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: var(--light);
+            font-weight: 600;
+        }
+
+        .payment-config {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .plan-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .plan-card:hover {
+            border-color: var(--primary);
+            transform: scale(1.02);
+        }
+
+        .plan-price {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .qr-code {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .error-message, .success-message {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .error-message { background: #f8d7da; color: #721c24; }
+        .success-message { background: #d4edda; color: #155724; }
+
+        .loading { text-align: center; padding: 40px; color: var(--gray); }
+        .pix-highlight { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
+
+        .payment-request-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .ads-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="header">
+        <h1>🛒 MarketPlace Pro</h1>
+        <p>Anuncie grátis | Até 5 fotos | Destaque com PIX (confirmação manual)</p>
+        <div class="user-info" id="userInfo">
+            <span id="userName">Visitante</span>
+            <button onclick="logout()" id="logoutBtn" style="display:none;">Sair</button>
+            <button onclick="showLogin()" id="loginBtn">Entrar</button>
+        </div>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="nav-tab active" onclick="changeTab('home')">🏠 Início</button>
+        <button class="nav-tab" onclick="changeTab('myads')">📦 Meus Anúncios</button>
+        <button class="nav-tab admin-only" onclick="changeTab('admin')" style="display:none;">👑 Admin</button>
+        <button class="nav-tab admin-only" onclick="changeTab('payments')" style="display:none;">💰 Pagamentos Pendentes</button>
+    </div>
+
+    <div class="content" id="content"></div>
+</div>
+
+<button class="sell-btn" onclick="showSellModal()">+</button>
+
+<!-- Modal de Login/Cadastro -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <h2 style="margin-bottom:20px; text-align:center;">🔐 Entrar / Cadastrar</h2>
+        <div id="loginError" class="error-message"></div>
+        
+        <div class="form-group">
+            <label>Nome completo</label>
+            <input type="text" id="regName" placeholder="Seu nome">
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="loginEmail" placeholder="email@exemplo.com">
+        </div>
+        <div class="form-group">
+            <label>Senha</label>
+            <input type="password" id="loginPassword" placeholder="••••••">
+        </div>
+        
+        <button class="btn btn-primary" onclick="login()">Entrar</button>
+        <button class="btn" style="margin-top:10px; background:#e0e0e0; width:100%;" onclick="register()">Criar conta grátis</button>
+        <button class="btn" style="margin-top:10px; background:#f0f0f0; width:100%;" onclick="closeModal('loginModal')">Fechar</button>
+    </div>
+</div>
+
+<!-- Modal de Criar Anúncio -->
+<div id="sellModal" class="modal">
+    <div class="modal-content">
+        <h2 style="margin-bottom:20px;">📝 Criar Anúncio (Até 5 fotos)</h2>
+        <div id="sellError" class="error-message"></div>
+        
+        <form id="sellForm" onsubmit="event.preventDefault(); createAd();">
+            <div class="form-group">
+                <label>📸 Fotos do produto (máximo 5)</label>
+                <div id="imagesContainer" class="images-container"></div>
+                <button type="button" class="btn" style="background:#e0e0e0; margin-top:10px;" onclick="addImageUpload()">+ Adicionar Foto</button>
+            </div>
+            <div class="form-group">
+                <label>Título do produto *</label>
+                <input type="text" id="adTitle" required placeholder="Ex: Geladeira Frost Free">
+            </div>
+            <div class="form-group">
+                <label>Categoria</label>
+                <select id="adCategory">
+                    <option value="Eletrônicos">📱 Eletrônicos</option>
+                    <option value="Moda">👕 Moda</option>
+                    <option value="Imóveis">🏠 Imóveis</option>
+                    <option value="Veículos">🚗 Veículos</option>
+                    <option value="Móveis">🛋️ Móveis</option>
+                    <option value="Outros">📦 Outros</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Preço (R$) *</label>
+                <input type="number" id="adPrice" required step="0.01" placeholder="0,00">
+            </div>
+            <div class="form-group">
+                <label>Descrição</label>
+                <textarea id="adDescription" rows="3" placeholder="Descreva seu produto..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Whatsapp para contato</label>
+                <input type="text" id="adWhatsapp" placeholder="(11) 99999-9999">
+            </div>
+            <button type="submit" class="btn btn-primary">Publicar Anúncio</button>
+        </form>
+        <button class="btn" style="margin-top:10px; background:#e0e0e0; width:100%;" onclick="closeModal('sellModal')">Cancelar</button>
+    </div>
+</div>
+
+<!-- Modal de Solicitar Destaque -->
+<div id="featuredModal" class="modal">
+    <div class="modal-content">
+        <h2 style="margin-bottom:20px;">⭐ Solicitar Destaque - PIX</h2>
+        <p style="margin-bottom:20px;">Após o pagamento, o administrador vai confirmar e ativar seu destaque!</p>
+        <div id="plansList"></div>
+        <div id="paymentInfo"></div>
+        <button class="btn" style="margin-top:15px; background:#e0e0e0; width:100%;" onclick="closeModal('featuredModal')">Fechar</button>
+    </div>
+</div>
+
+<!-- Modal para visualizar foto -->
+<div id="imageViewerModal" class="modal">
+    <div class="modal-content" style="max-width: 90%; text-align: center;">
+        <img id="viewerImage" style="max-width: 100%; max-height: 60vh;">
+        <button class="btn" style="margin-top:20px; background:#e0e0e0;" onclick="closeModal('imageViewerModal')">Fechar</button>
+    </div>
+</div>
+
+<script>
+    // ==================== SEU PIX FIXO ====================
+    const SEU_PIX = "03976490539";
+    
+    // ==================== DADOS ====================
+    let currentUser = null;
+    let ads = [];
+    let users = [];
+    let paymentRequests = []; // Solicitações de pagamento pendentes
+    let selectedAdForFeature = null;
+    let selectedPlan = null;
+    let imageDataList = [];
+
+    function loadData() {
+        const savedAds = localStorage.getItem('marketplace_ads_manual');
+        if (savedAds) {
+            ads = JSON.parse(savedAds);
+        } else {
+            ads = [];
+        }
+
+        const savedUsers = localStorage.getItem('marketplace_users_manual');
+        if (savedUsers) {
+            users = JSON.parse(savedUsers);
+        } else {
+            users = [
+                { id: 1, name: "Administrador", email: "admin@marketplace.com", password: "admin123", role: "admin", balance: 0 }
+            ];
+            saveUsers();
+        }
+
+        const savedPayments = localStorage.getItem('marketplace_payments_manual');
+        if (savedPayments) {
+            paymentRequests = JSON.parse(savedPayments);
+        } else {
+            paymentRequests = [];
+        }
+
+        const savedSession = localStorage.getItem('marketplace_session_manual');
+        if (savedSession) {
+            currentUser = JSON.parse(savedSession);
+            updateUserUI();
+        }
+    }
+
+    function saveAds() { localStorage.setItem('marketplace_ads_manual', JSON.stringify(ads)); }
+    function saveUsers() { localStorage.setItem('marketplace_users_manual', JSON.stringify(users)); }
+    function savePayments() { localStorage.setItem('marketplace_payments_manual', JSON.stringify(paymentRequests)); }
+    function saveSession() { 
+        if (currentUser) localStorage.setItem('marketplace_session_manual', JSON.stringify(currentUser));
+        else localStorage.removeItem('marketplace_session_manual');
+    }
+
+    // Gerenciar imagens
+    function addImageUpload() {
+        if (imageDataList.length >= 5) {
+            alert('Máximo de 5 fotos atingido!');
+            return;
+        }
+        
+        const container = document.getElementById('imagesContainer');
+        const index = imageDataList.length;
+        
+        const div = document.createElement('div');
+        div.className = 'image-upload-card';
+        div.id = `img-card-${index}`;
+        div.innerHTML = `
+            <div class="remove-image" onclick="removeImage(${index})">×</div>
+            <img id="preview-${index}" style="display: none; width:100%; height:100px; object-fit:cover; border-radius:8px;">
+            <span id="placeholder-${index}" style="color: #999;">📷 ${index + 1}</span>
+            <input type="file" accept="image/*" onchange="uploadImage(this, ${index})">
+        `;
+        container.appendChild(div);
+        
+        if (!imageDataList[index]) imageDataList[index] = null;
+    }
+    
+    function uploadImage(input, index) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imageDataList[index] = e.target.result;
+                const preview = document.getElementById(`preview-${index}`);
+                const placeholder = document.getElementById(`placeholder-${index}`);
+                if (preview
