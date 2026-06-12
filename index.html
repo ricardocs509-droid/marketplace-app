@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>MarketPlace Pro - Com confirmação manual | PIX Direto</title>
+    <title>MarketPlace Pro - Anuncie Grátis | PIX Direto</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,6 @@
             --danger: #dc3545;
             --success: #28a745;
             --warning: #ffc107;
-            --info: #17a2b8;
             --light: #f8f9fa;
             --gray: #6c757d;
             --dark: #2c3e50;
@@ -64,7 +63,6 @@
             border-radius: 20px;
             color: white;
             cursor: pointer;
-            transition: 0.3s;
         }
 
         .sell-btn {
@@ -118,7 +116,7 @@
 
         .ads-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
         }
 
@@ -127,11 +125,8 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
             position: relative;
         }
-
-        .ad-card:hover { transform: translateY(-3px); }
 
         .featured-badge {
             position: absolute;
@@ -143,7 +138,6 @@
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: bold;
-            z-index: 1;
         }
 
         .pending-badge {
@@ -156,7 +150,6 @@
             border-radius: 20px;
             font-size: 0.7rem;
             font-weight: bold;
-            z-index: 1;
         }
 
         .ad-image {
@@ -537,7 +530,7 @@
     let currentUser = null;
     let ads = [];
     let users = [];
-    let paymentRequests = []; // Solicitações de pagamento pendentes
+    let paymentRequests = [];
     let selectedAdForFeature = null;
     let selectedPlan = null;
     let imageDataList = [];
@@ -582,7 +575,6 @@
         else localStorage.removeItem('marketplace_session_manual');
     }
 
-    // Gerenciar imagens
     function addImageUpload() {
         if (imageDataList.length >= 5) {
             alert('Máximo de 5 fotos atingido!');
@@ -613,4 +605,13 @@
                 imageDataList[index] = e.target.result;
                 const preview = document.getElementById(`preview-${index}`);
                 const placeholder = document.getElementById(`placeholder-${index}`);
-                if (preview
+                if (preview) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                if (placeholder) placeholder.style.display = 'none';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
