@@ -3,59 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>MarketPlace Pro - Anuncie Grátis | PIX Direto</title>
+    <title>MarketPlace - Anuncie Grátis</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-        }
-
-        :root {
-            --primary: #ff6b00;
-            --primary-dark: #e55a00;
-            --secondary: #00a884;
-            --danger: #dc3545;
-            --success: #28a745;
-            --warning: #ffc107;
-            --light: #f8f9fa;
-            --gray: #6c757d;
-            --dark: #2c3e50;
-        }
-
-        body {
-            background: #f0f2f5;
-        }
-
-        .app-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            min-height: 100vh;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        
+        body { background: #f0f2f5; }
+        
         .header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: #ff6b00;
             color: white;
             padding: 20px;
             text-align: center;
-            position: relative;
         }
-
-        .header h1 { font-size: 1.8rem; margin-bottom: 5px; }
-        .header p { font-size: 0.9rem; opacity: 0.9; }
-
+        
+        .header h1 { font-size: 1.8rem; }
+        
         .user-info {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
+            text-align: right;
+            margin-top: 10px;
         }
-
+        
         .user-info button {
             background: rgba(255,255,255,0.2);
             border: none;
@@ -63,63 +30,53 @@
             border-radius: 20px;
             color: white;
             cursor: pointer;
+            margin: 5px;
         }
-
+        
         .sell-btn {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: var(--secondary);
+            background: #00a884;
             color: white;
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-size: 30px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            z-index: 100;
             border: none;
+            cursor: pointer;
+            z-index: 100;
         }
-
+        
         .nav-tabs {
             display: flex;
             background: white;
-            border-bottom: 2px solid var(--light);
             padding: 0 20px;
             gap: 20px;
-            overflow-x: auto;
+            border-bottom: 1px solid #ddd;
         }
-
+        
         .nav-tab {
             padding: 15px 20px;
             cursor: pointer;
             border: none;
             background: none;
-            font-weight: 600;
-            color: var(--gray);
-            white-space: nowrap;
+            font-weight: bold;
         }
-
+        
         .nav-tab.active {
-            color: var(--primary);
-            border-bottom: 2px solid var(--primary);
+            color: #ff6b00;
+            border-bottom: 2px solid #ff6b00;
         }
-
-        .content {
-            padding: 20px;
-            min-height: calc(100vh - 130px);
-            padding-bottom: 80px;
-        }
-
+        
+        .content { padding: 20px; min-height: 400px; }
+        
         .ads-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
         }
-
+        
         .ad-card {
             background: white;
             border-radius: 12px;
@@ -127,151 +84,47 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             position: relative;
         }
-
+        
         .featured-badge {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            background: gold;
             color: #856404;
             padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 12px;
             font-weight: bold;
         }
-
-        .pending-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--warning);
-            color: #856404;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: bold;
-        }
-
+        
         .ad-image {
             width: 100%;
-            height: 200px;
+            height: 180px;
             object-fit: cover;
-            background: var(--light);
+            background: #f8f9fa;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 60px;
-            cursor: pointer;
+            font-size: 50px;
         }
-
+        
         .ad-info { padding: 15px; }
-        .ad-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
-        .ad-price { font-size: 1.3rem; color: var(--primary); font-weight: bold; margin: 10px 0; }
-        .ad-seller { font-size: 0.8rem; color: var(--gray); display: flex; justify-content: space-between; margin-top: 10px; }
-
-        .btn-contact, .btn-feature, .btn-delete {
+        .ad-title { font-weight: bold; font-size: 1.1rem; }
+        .ad-price { font-size: 1.3rem; color: #ff6b00; font-weight: bold; margin: 10px 0; }
+        
+        button {
             border: none;
             padding: 10px;
-            width: 100%;
             border-radius: 8px;
             cursor: pointer;
+            font-weight: bold;
             margin-top: 8px;
-            font-weight: 600;
         }
-
-        .btn-contact { background: #25D366; color: white; }
-        .btn-feature { background: var(--primary); color: white; }
-        .btn-delete { background: var(--danger); color: white; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-warning { background: var(--warning); color: #856404; }
-
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark); }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .images-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .image-upload-card {
-            border: 2px dashed #e0e0e0;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            position: relative;
-            min-height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--light);
-        }
-
-        .image-upload-card img {
-            width: 100%;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .image-upload-card input {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        .remove-image {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--danger);
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            cursor: pointer;
-            z-index: 2;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .btn-primary { background: var(--primary); color: white; width: 100%; }
-
+        
+        .btn-contact { background: #25D366; color: white; width: 100%; }
+        .btn-feature { background: #ff6b00; color: white; width: 100%; }
+        .btn-delete { background: #dc3545; color: white; width: 100%; }
+        
         .modal {
             position: fixed;
             top: 0;
@@ -282,87 +135,70 @@
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 2000;
+            z-index: 1000;
         }
-
+        
         .modal.active { display: flex; }
+        
         .modal-content {
             background: white;
             padding: 30px;
             border-radius: 20px;
-            max-width: 600px;
+            max-width: 500px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
         }
-
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .btn-primary { background: #ff6b00; color: white; width: 100%; padding: 12px; }
+        .btn-primary:hover { background: #e55a00; }
+        
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
-
+        
         .stat-card {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, #ff6b00, #e55a00);
             color: white;
             padding: 20px;
             border-radius: 12px;
             text-align: center;
         }
-
+        
         .stat-number { font-size: 2rem; font-weight: bold; }
-
-        .admin-table {
-            width: 100%;
-            overflow-x: auto;
-            margin-top: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        th {
-            background: var(--light);
-            font-weight: 600;
-        }
-
-        .payment-config {
-            background: var(--light);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-
-        .plan-card {
-            border: 2px solid #e0e0e0;
+        
+        .payment-request-card {
+            background: white;
+            border: 1px solid #ddd;
             border-radius: 12px;
             padding: 15px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            text-align: center;
+            margin-bottom: 15px;
         }
-
-        .plan-card:hover {
-            border-color: var(--primary);
-            transform: scale(1.02);
+        
+        .success-message, .error-message {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
         }
-
-        .plan-price {
-            font-size: 1.5rem;
-            color: var(--primary);
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
+        
+        .success-message { background: #d4edda; color: #155724; }
+        .error-message { background: #f8d7da; color: #721c24; }
+        
+        .pix-highlight { font-size: 1.3rem; font-weight: bold; color: #ff6b00; }
+        
         .qr-code {
             text-align: center;
             padding: 20px;
@@ -370,39 +206,28 @@
             border-radius: 12px;
             margin-top: 15px;
         }
-
+        
         .copy-btn {
-            background: var(--primary);
+            background: #ff6b00;
             color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 10px 20px;
             margin-top: 10px;
-            font-weight: bold;
         }
-
-        .error-message, .success-message {
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            display: none;
-        }
-
-        .error-message { background: #f8d7da; color: #721c24; }
-        .success-message { background: #d4edda; color: #155724; }
-
-        .loading { text-align: center; padding: 40px; color: var(--gray); }
-        .pix-highlight { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
-
-        .payment-request-card {
-            background: white;
-            border: 1px solid #e0e0e0;
+        
+        .plan-card {
+            border: 2px solid #ddd;
             border-radius: 12px;
             padding: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            text-align: center;
         }
-
+        
+        .plan-card:hover { border-color: #ff6b00; }
+        .plan-price { font-size: 1.5rem; color: #ff6b00; font-weight: bold; }
+        
+        .loading { text-align: center; padding: 40px; color: #666; }
+        
         @media (max-width: 768px) {
             .ads-grid { grid-template-columns: 1fr; }
             .stats-grid { grid-template-columns: 1fr 1fr; }
@@ -410,37 +235,34 @@
     </style>
 </head>
 <body>
-<div class="app-container">
-    <div class="header">
-        <h1>🛒 MarketPlace Pro</h1>
-        <p>Anuncie grátis | Até 5 fotos | Destaque com PIX (confirmação manual)</p>
-        <div class="user-info" id="userInfo">
-            <span id="userName">Visitante</span>
-            <button onclick="logout()" id="logoutBtn" style="display:none;">Sair</button>
-            <button onclick="showLogin()" id="loginBtn">Entrar</button>
-        </div>
+<div class="header">
+    <h1>🛒 MarketPlace</h1>
+    <p>Anuncie grátis | Destaque seu produto</p>
+    <div class="user-info" id="userInfo">
+        <span id="userName">Visitante</span>
+        <button onclick="logout()" id="logoutBtn" style="display:none;">Sair</button>
+        <button onclick="showLogin()" id="loginBtn">Entrar</button>
     </div>
-
-    <div class="nav-tabs">
-        <button class="nav-tab active" onclick="changeTab('home')">🏠 Início</button>
-        <button class="nav-tab" onclick="changeTab('myads')">📦 Meus Anúncios</button>
-        <button class="nav-tab admin-only" onclick="changeTab('admin')" style="display:none;">👑 Admin</button>
-        <button class="nav-tab admin-only" onclick="changeTab('payments')" style="display:none;">💰 Pagamentos Pendentes</button>
-    </div>
-
-    <div class="content" id="content"></div>
 </div>
+
+<div class="nav-tabs">
+    <button class="nav-tab active" onclick="changeTab('home')">🏠 Início</button>
+    <button class="nav-tab" onclick="changeTab('myads')">📦 Meus Anúncios</button>
+    <button class="nav-tab admin-only" onclick="changeTab('admin')" style="display:none;">👑 Admin</button>
+    <button class="nav-tab admin-only" onclick="changeTab('payments')" style="display:none;">💰 Pagamentos</button>
+</div>
+
+<div class="content" id="content"></div>
 
 <button class="sell-btn" onclick="showSellModal()">+</button>
 
-<!-- Modal de Login/Cadastro -->
+<!-- Modal Login -->
 <div id="loginModal" class="modal">
     <div class="modal-content">
-        <h2 style="margin-bottom:20px; text-align:center;">🔐 Entrar / Cadastrar</h2>
+        <h2 style="text-align:center;">🔐 Entrar</h2>
         <div id="loginError" class="error-message"></div>
-        
         <div class="form-group">
-            <label>Nome completo</label>
+            <label>Nome</label>
             <input type="text" id="regName" placeholder="Seu nome">
         </div>
         <div class="form-group">
@@ -451,167 +273,199 @@
             <label>Senha</label>
             <input type="password" id="loginPassword" placeholder="••••••">
         </div>
-        
-        <button class="btn btn-primary" onclick="login()">Entrar</button>
-        <button class="btn" style="margin-top:10px; background:#e0e0e0; width:100%;" onclick="register()">Criar conta grátis</button>
-        <button class="btn" style="margin-top:10px; background:#f0f0f0; width:100%;" onclick="closeModal('loginModal')">Fechar</button>
+        <button class="btn-primary" onclick="login()">Entrar</button>
+        <button style="width:100%; margin-top:10px; background:#ddd;" onclick="register()">Criar Conta</button>
+        <button style="width:100%; margin-top:10px; background:#eee;" onclick="closeModal('loginModal')">Fechar</button>
     </div>
 </div>
 
-<!-- Modal de Criar Anúncio -->
+<!-- Modal Criar Anúncio -->
 <div id="sellModal" class="modal">
     <div class="modal-content">
-        <h2 style="margin-bottom:20px;">📝 Criar Anúncio (Até 5 fotos)</h2>
+        <h2>📝 Criar Anúncio</h2>
         <div id="sellError" class="error-message"></div>
-        
-        <form id="sellForm" onsubmit="event.preventDefault(); createAd();">
-            <div class="form-group">
-                <label>📸 Fotos do produto (máximo 5)</label>
-                <div id="imagesContainer" class="images-container"></div>
-                <button type="button" class="btn" style="background:#e0e0e0; margin-top:10px;" onclick="addImageUpload()">+ Adicionar Foto</button>
-            </div>
-            <div class="form-group">
-                <label>Título do produto *</label>
-                <input type="text" id="adTitle" required placeholder="Ex: Geladeira Frost Free">
-            </div>
-            <div class="form-group">
-                <label>Categoria</label>
-                <select id="adCategory">
-                    <option value="Eletrônicos">📱 Eletrônicos</option>
-                    <option value="Moda">👕 Moda</option>
-                    <option value="Imóveis">🏠 Imóveis</option>
-                    <option value="Veículos">🚗 Veículos</option>
-                    <option value="Móveis">🛋️ Móveis</option>
-                    <option value="Outros">📦 Outros</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Preço (R$) *</label>
-                <input type="number" id="adPrice" required step="0.01" placeholder="0,00">
-            </div>
-            <div class="form-group">
-                <label>Descrição</label>
-                <textarea id="adDescription" rows="3" placeholder="Descreva seu produto..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Whatsapp para contato</label>
-                <input type="text" id="adWhatsapp" placeholder="(11) 99999-9999">
-            </div>
-            <button type="submit" class="btn btn-primary">Publicar Anúncio</button>
-        </form>
-        <button class="btn" style="margin-top:10px; background:#e0e0e0; width:100%;" onclick="closeModal('sellModal')">Cancelar</button>
+        <div class="form-group">
+            <label>Título</label>
+            <input type="text" id="adTitle" placeholder="Ex: Geladeira">
+        </div>
+        <div class="form-group">
+            <label>Categoria</label>
+            <select id="adCategory">
+                <option>Eletrônicos</option><option>Moda</option><option>Imóveis</option><option>Veículos</option><option>Outros</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Preço (R$)</label>
+            <input type="number" id="adPrice" placeholder="0,00">
+        </div>
+        <div class="form-group">
+            <label>Descrição</label>
+            <textarea id="adDescription" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Whatsapp</label>
+            <input type="text" id="adWhatsapp" placeholder="(11) 99999-9999">
+        </div>
+        <button class="btn-primary" onclick="createAd()">Publicar</button>
+        <button style="width:100%; margin-top:10px; background:#ddd;" onclick="closeModal('sellModal')">Cancelar</button>
     </div>
 </div>
 
-<!-- Modal de Solicitar Destaque -->
+<!-- Modal Destaque -->
 <div id="featuredModal" class="modal">
     <div class="modal-content">
-        <h2 style="margin-bottom:20px;">⭐ Solicitar Destaque - PIX</h2>
-        <p style="margin-bottom:20px;">Após o pagamento, o administrador vai confirmar e ativar seu destaque!</p>
+        <h2>⭐ Destacar Anúncio</h2>
         <div id="plansList"></div>
         <div id="paymentInfo"></div>
-        <button class="btn" style="margin-top:15px; background:#e0e0e0; width:100%;" onclick="closeModal('featuredModal')">Fechar</button>
-    </div>
-</div>
-
-<!-- Modal para visualizar foto -->
-<div id="imageViewerModal" class="modal">
-    <div class="modal-content" style="max-width: 90%; text-align: center;">
-        <img id="viewerImage" style="max-width: 100%; max-height: 60vh;">
-        <button class="btn" style="margin-top:20px; background:#e0e0e0;" onclick="closeModal('imageViewerModal')">Fechar</button>
+        <button style="width:100%; margin-top:10px; background:#ddd;" onclick="closeModal('featuredModal')">Fechar</button>
     </div>
 </div>
 
 <script>
-    // ==================== SEU PIX FIXO ====================
     const SEU_PIX = "03976490539";
-    
-    // ==================== DADOS ====================
     let currentUser = null;
     let ads = [];
     let users = [];
     let paymentRequests = [];
     let selectedAdForFeature = null;
-    let selectedPlan = null;
-    let imageDataList = [];
 
     function loadData() {
-        const savedAds = localStorage.getItem('marketplace_ads_manual');
-        if (savedAds) {
-            ads = JSON.parse(savedAds);
+        let saved = localStorage.getItem('ads');
+        if(saved) ads = JSON.parse(saved);
+        saved = localStorage.getItem('users');
+        if(saved) users = JSON.parse(saved);
+        else users = [{ id: 1, name: "Admin", email: "admin@marketplace.com", password: "admin123", role: "admin", balance: 0 }];
+        saved = localStorage.getItem('payments');
+        if(saved) paymentRequests = JSON.parse(saved);
+        saved = localStorage.getItem('user');
+        if(saved) { currentUser = JSON.parse(saved); updateUI(); }
+    }
+    function saveAll() { localStorage.setItem('ads', JSON.stringify(ads)); localStorage.setItem('users', JSON.stringify(users)); localStorage.setItem('payments', JSON.stringify(paymentRequests)); }
+    function saveUser() { if(currentUser) localStorage.setItem('user', JSON.stringify(currentUser)); else localStorage.removeItem('user'); }
+
+    function updateUI() {
+        if(currentUser) {
+            document.getElementById('userName').innerHTML = `👤 ${currentUser.name}`;
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'inline-block';
+            document.querySelectorAll('.admin-only').forEach(tab => {
+                tab.style.display = currentUser.role === 'admin' ? 'inline-block' : 'none';
+            });
         } else {
-            ads = [];
-        }
-
-        const savedUsers = localStorage.getItem('marketplace_users_manual');
-        if (savedUsers) {
-            users = JSON.parse(savedUsers);
-        } else {
-            users = [
-                { id: 1, name: "Administrador", email: "admin@marketplace.com", password: "admin123", role: "admin", balance: 0 }
-            ];
-            saveUsers();
-        }
-
-        const savedPayments = localStorage.getItem('marketplace_payments_manual');
-        if (savedPayments) {
-            paymentRequests = JSON.parse(savedPayments);
-        } else {
-            paymentRequests = [];
-        }
-
-        const savedSession = localStorage.getItem('marketplace_session_manual');
-        if (savedSession) {
-            currentUser = JSON.parse(savedSession);
-            updateUserUI();
+            document.getElementById('userName').innerHTML = 'Visitante';
+            document.getElementById('loginBtn').style.display = 'inline-block';
+            document.getElementById('logoutBtn').style.display = 'none';
         }
     }
 
-    function saveAds() { localStorage.setItem('marketplace_ads_manual', JSON.stringify(ads)); }
-    function saveUsers() { localStorage.setItem('marketplace_users_manual', JSON.stringify(users)); }
-    function savePayments() { localStorage.setItem('marketplace_payments_manual', JSON.stringify(paymentRequests)); }
-    function saveSession() { 
-        if (currentUser) localStorage.setItem('marketplace_session_manual', JSON.stringify(currentUser));
-        else localStorage.removeItem('marketplace_session_manual');
+    function changeTab(tab) {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        if(event && event.target) event.target.classList.add('active');
+        if(tab === 'home') renderHome();
+        else if(tab === 'myads') renderMyAds();
+        else if(tab === 'admin') renderAdmin();
+        else if(tab === 'payments') renderPayments();
     }
 
-    function addImageUpload() {
-        if (imageDataList.length >= 5) {
-            alert('Máximo de 5 fotos atingido!');
-            return;
+    function renderHome() {
+        let sorted = [...ads].sort((a,b) => (a.featured && a.featuredExpiry > Date.now()) ? -1 : 1);
+        if(sorted.length === 0) { document.getElementById('content').innerHTML = '<div class="loading">📭 Nenhum anúncio</div>'; return; }
+        let html = '<div class="ads-grid">';
+        sorted.forEach(ad => {
+            let seller = users.find(u => u.id === ad.userId);
+            let isFeatured = ad.featured && ad.featuredExpiry > Date.now();
+            html += `<div class="ad-card">${isFeatured ? '<div class="featured-badge">⭐ DESTAQUE</div>' : ''}<div class="ad-image">📦</div><div class="ad-info"><div class="ad-title">${ad.title}</div><div class="ad-price">R$ ${ad.price.toFixed(2)}</div><div style="font-size:12px; color:#666;">${ad.description}</div><div style="font-size:11px; color:#999; margin-top:8px;">👤 ${seller ? seller.name : 'Usuário'} | 👁️ ${ad.views||0}</div><button class="btn-contact" onclick="contactSeller('${ad.whatsapp}','${ad.title}')">📞 Falar</button></div></div>`;
+            ad.views = (ad.views||0)+1;
+        });
+        html += '</div>';
+        document.getElementById('content').innerHTML = html;
+        saveAll();
+    }
+
+    function renderMyAds() {
+        if(!currentUser) { document.getElementById('content').innerHTML = '<div class="loading">🔐 Faça login</div>'; return; }
+        let myAds = ads.filter(a => a.userId === currentUser.id);
+        if(myAds.length === 0) { document.getElementById('content').innerHTML = '<div class="loading">📭 Seus anúncios aparecerão aqui</div>'; return; }
+        let html = '<div class="ads-grid">';
+        myAds.forEach(ad => {
+            let isFeatured = ad.featured && ad.featuredExpiry > Date.now();
+            let pending = paymentRequests.some(p => p.adId === ad.id && p.status === 'pending');
+            html += `<div class="ad-card"><div class="ad-image">📦</div><div class="ad-info"><div class="ad-title">${ad.title}</div><div class="ad-price">R$ ${ad.price.toFixed(2)}</div>${!isFeatured && !pending ? `<button class="btn-feature" onclick="showFeature(${ad.id})">⭐ Destacar</button>` : ''}${pending ? '<button style="background:#ffc107;" disabled>⏳ Aguardando</button>' : ''}${isFeatured ? '<div style="color:green;">✅ Destaque ativo</div>' : ''}<button class="btn-delete" onclick="deleteAd(${ad.id})">🗑️ Excluir</button></div></div>`;
+        });
+        html += '</div>';
+        document.getElementById('content').innerHTML = html;
+    }
+
+    function showFeature(adId) {
+        if(!currentUser) { alert('Faça login'); return; }
+        selectedAdForFeature = adId;
+        let plans = [{days:7, price:15},{days:15, price:25},{days:30, price:40}];
+        let html = '';
+        plans.forEach(p => { html += `<div class="plan-card" onclick="selectPlan(${p.days},${p.price})"><div>⭐ ${p.days} dias</div><div class="plan-price">R$ ${p.price}</div></div>`; });
+        document.getElementById('plansList').innerHTML = html;
+        document.getElementById('paymentInfo').innerHTML = '';
+        document.getElementById('featuredModal').classList.add('active');
+    }
+
+    function selectPlan(days, price) {
+        let qr = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=00020126360014BR.GOV.BCB.PIX0114${SEU_PIX}5204000053039865404${price}5802BR5915MP6009SAOPAULO6304`;
+        document.getElementById('paymentInfo').innerHTML = `<div class="qr-code"><p><strong>Valor: R$ ${price}</strong></p><p>Chave: <span class="pix-highlight">${SEU_PIX}</span></p><img src="${qr}" style="width:150px; margin:10px;"><button class="copy-btn" onclick="copiarPix()">📋 Copiar Chave</button><button class="btn-primary" style="margin-top:10px;" onclick="solicitarPagamento(${days},${price})">✅ Já Paguei</button></div>`;
+    }
+
+    function copiarPix() { navigator.clipboard.writeText(SEU_PIX); alert('Chave copiada!'); }
+
+    function solicitarPagamento(days, price) {
+        if(confirm(`Confirmar pagamento de R$ ${price} para ${SEU_PIX}?`)) {
+            paymentRequests.push({ id: Date.now(), adId: selectedAdForFeature, userId: currentUser.id, userName: currentUser.name, days, price, status: 'pending', date: new Date().toISOString() });
+            saveAll();
+            alert('✅ Solicitação enviada! Aguarde confirmação do admin.');
+            closeModal('featuredModal');
+            renderMyAds();
         }
+    }
+
+    function renderPayments() {
+        if(!currentUser || currentUser.role !== 'admin') { renderAdmin(); return; }
+        let pending = paymentRequests.filter(p => p.status === 'pending');
+        if(pending.length === 0) { document.getElementById('content').innerHTML = '<div class="loading">✅ Sem pagamentos pendentes</div>'; return; }
+        let html = `<h2>💰 Pagamentos Pendentes</h2><p>Chave: <strong>${SEU_PIX}</strong></p>`;
+        pending.forEach(p => {
+            html += `<div class="payment-request-card"><h3>${p.adTitle}</h3><p>Vendedor: ${p.userName}</p><p>Plano: ${p.days} dias - R$ ${p.price}</p><p>Data: ${new Date(p.date).toLocaleString()}</p><button class="btn-primary" style="width:auto; display:inline-block; margin-right:10px;" onclick="confirmar(${p.id},${p.days},${p.price})">✅ Confirmar</button><button class="btn-delete" style="width:auto; display:inline-block;" onclick="recusar(${p.id})">❌ Recusar</button></div>`;
+        });
+        document.getElementById('content').innerHTML = html;
+    }
+
+    function confirmar(paymentId, days, price) {
+        if(confirm(`Confirmar recebimento de R$ ${price}?`)) {
+            let req = paymentRequests.find(p => p.id === paymentId);
+            if(req) {
+                req.status = 'approved';
+                let ad = ads.find(a => a.id === req.adId);
+                if(ad) { ad.featured = true; ad.featuredExpiry = Date.now() + days*24*60*60*1000; }
+                let admin = users.find(u => u.role === 'admin');
+                if(admin) admin.balance = (admin.balance||0) + price;
+                saveAll();
+                alert('✅ Destaque ativado!');
+                renderPayments();
+                renderHome();
+            }
+        }
+    }
+
+    function recusar(paymentId) {
+        let req = paymentRequests.find(p => p.id === paymentId);
+        if(req) { req.status = 'rejected'; saveAll(); alert('Solicitação recusada'); renderPayments(); }
+    }
+
+    function renderAdmin() {
+        if(!currentUser || currentUser.role !== 'admin') { document.getElementById('content').innerHTML = '<div class="loading">🔒 Acesso negado</div>'; return; }
+        let total = users.reduce((s,u) => s+(u.balance||0),0);
+        let pending = paymentRequests.filter(p => p.status === 'pending').length;
+        document.getElementById('content').innerHTML = `<div class="stats-grid"><div class="stat-card"><div class="stat-number">R$ ${total}</div><div>Receita</div></div><div class="stat-card"><div class="stat-number">${ads.length}</div><div>Anúncios</div></div><div class="stat-card"><div class="stat-number">${pending}</div><div>Pendentes</div></div></div><div class="payment-config"><h3>💰 Sua Chave PIX</h3><p style="font-size:1.5rem;">${SEU_PIX}</p><button class="btn-primary" onclick="changeTab('payments')">Ver Pagamentos (${pending})</button></div>`;
+    }
+
+    function contactSeller(w, p) { if(w) window.open(`https://wa.me/55${w.replace(/\D/g,'')}?text=Olá! Vi seu anúncio do ${p}!`, '_blank'); else alert('Whatsapp não informado'); }
+    function deleteAd(id) { if(confirm('Excluir?')) { ads = ads.filter(a => a.id !== id); saveAll(); renderMyAds(); renderHome(); } }
+    function createAd() {
+        let title = document.getElementById('adTitle').value;
         
-        const container = document.getElementById('imagesContainer');
-        const index = imageDataList.length;
-        
-        const div = document.createElement('div');
-        div.className = 'image-upload-card';
-        div.id = `img-card-${index}`;
-        div.innerHTML = `
-            <div class="remove-image" onclick="removeImage(${index})">×</div>
-            <img id="preview-${index}" style="display: none; width:100%; height:100px; object-fit:cover; border-radius:8px;">
-            <span id="placeholder-${index}" style="color: #999;">📷 ${index + 1}</span>
-            <input type="file" accept="image/*" onchange="uploadImage(this, ${index})">
-        `;
-        container.appendChild(div);
-        
-        if (!imageDataList[index]) imageDataList[index] = null;
-    }
-    
-    function uploadImage(input, index) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                imageDataList[index] = e.target.result;
-                const preview = document.getElementById(`preview-${index}`);
-                const placeholder = document.getElementById(`placeholder-${index}`);
-                if (preview) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                }
-                if (placeholder) placeholder.style.display = 'none';
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    
